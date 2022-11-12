@@ -5,7 +5,7 @@ import PrimaryBtn from '../../../Component/PrimaryBtn';
 const TopBanner = () => {
     return (
         <section>
-            <div className="hero min-h-screen bg-base-200 p-9">
+            <div className="hero min-h-screen p-9">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <img src={chair} className="w-1/2 rounded-lg shadow-2xl" />
                     <div className=''>
