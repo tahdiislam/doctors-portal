@@ -1,10 +1,14 @@
+import { Toaster } from 'react-hot-toast'
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
+import { router } from './Router/router'
 
 function App() {
 
   return (
-    <div className="App">
-      <h1>Hello world</h1>
+    <div className="max-w-[1280px] mx-auto">
+      <RouterProvider router={router}/>
+      <Toaster/>
     </div>
   )
 }
