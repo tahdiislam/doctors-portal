@@ -13,12 +13,12 @@ const ContactForm = () => {
                     Stay Connected With Us
                 </h2>
             </div>
-            <div className='flex justify-center'>
-                <form action="" className='flex flex-col gap-4'>
+            <div>
+                <form action="" className='flex flex-col gap-4 max-w-xl mx-auto'>
                     <input type="email" placeholder="Email Address" className="input input-bordered input-primary w-full" />
                     <input type="text" placeholder="Subject" className="input input-bordered input-primary w-full" />
                     <textarea className="textarea textarea-primary" placeholder="Your Message"></textarea>
-                    <div className='w-1/2 mx-auto'>
+                    <div className='mx-auto'>
                         <PrimaryBtn>Submit</PrimaryBtn>
                     </div>
                 </form>
