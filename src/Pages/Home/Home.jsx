@@ -1,4 +1,5 @@
 import React from 'react';
+import Appointment from './Component/Appointment/Appointment';
 import Contacts from './Component/Contacts/Contacts';
 import Services from './Component/Services/Services';
 import TopBanner from './Component/TopBanner';
@@ -11,6 +12,7 @@ const Home = () => {
       <Contacts />
       <Services />
       <Treatment1/>
+      <Appointment/>
     </div>
   );
 };
