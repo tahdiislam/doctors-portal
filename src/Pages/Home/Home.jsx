@@ -1,7 +1,7 @@
 import React from 'react';
-import Appointment from './Component/Appointment/Appointment';
 import ContactForm from './Component/ContactForm/ContactForm';
 import Contacts from './Component/Contacts/Contacts';
+import MakeAppointment from './Component/MakeAppointment/MakeAppointment';
 import Services from './Component/Services/Services';
 import Testimonials from './Component/Testimonial/Testimonials';
 import TopBanner from './Component/TopBanner';
@@ -14,7 +14,7 @@ const Home = () => {
       <Contacts />
       <Services />
       <Treatment1/>
-      <Appointment/>
+      <MakeAppointment/>
       <Testimonials/>
       <ContactForm/>
     </div>

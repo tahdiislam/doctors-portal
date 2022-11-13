@@ -3,7 +3,7 @@ import PrimaryBtn from '../../../../Component/PrimaryBtn';
 import bgImg from "../../../../assets/images/appointment.png"
 import doctors from "../../../../assets/images/doctor.png"
 
-const Appointment = () => {
+const MakeAppointment = () => {
     return (
         <section className='mt-32' style={{background: `url(${bgImg})`}}>
             <div className="hero">
@@ -21,4 +21,4 @@ const Appointment = () => {
     );
 };
 
-export default Appointment;
+export default MakeAppointment;
