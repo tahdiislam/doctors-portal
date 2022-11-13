@@ -16,7 +16,7 @@ const AppointmentTime = ({ dateSelected }) => {
             <p className='text-center text-secondary'>
                 Available appointment on {format(dateSelected, "PP")}
             </p>
-            <div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16'>
                 {
                     appointmentOptions.map(appointmentOption => <AppointmentOption key={appointmentOption._id} appointmentOption={appointmentOption} />)
                 }
