@@ -6,8 +6,9 @@ const Appointment = () => {
     const [dateSelected, setDateSelected] = useState(new Date())
     return (
         <div>
-            <AppointmentHeader dateSelected={dateSelected} setDateSelected={setDateSelected}/>
+            <AppointmentHeader dateSelected={dateSelected}setDateSelected={setDateSelected}/>
             <AppointmentTime dateSelected={dateSelected}/>
+            
         </div>
     );
 };
