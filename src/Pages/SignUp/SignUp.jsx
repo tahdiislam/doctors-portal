@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../Context/AuthProvider";
 
 const SignUp = () => {
   const {
@@ -8,10 +9,15 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const { createUser } = useContext(UserContext);
   // form submit handler
-  const handleFormSubmit = data => {
-    console.log(data);
-  }
+  const handleFormSubmit = (data) => {
+    // create user with email and password
+    createUser(data.email, data.password)
+      .then((result) => console.log(result.user))
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7 shadow-lg rounded-lg">
@@ -27,7 +33,9 @@ const SignUp = () => {
               {...register("name", { required: "Name is required" })}
             />
             {errors.name && (
-              <small className="text-red-500 mt-2">{errors.email.message}</small>
+              <small className="text-red-500 mt-2">
+                {errors.email.message}
+              </small>
             )}
           </div>
           <div className="form-control w-full">
@@ -40,7 +48,9 @@ const SignUp = () => {
               {...register("email", { required: "Email is required" })}
             />
             {errors.email && (
-              <small className="text-red-500 mt-2">{errors.email.message}</small>
+              <small className="text-red-500 mt-2">
+                {errors.email.message}
+              </small>
             )}
           </div>
           <div className="form-control w-full">
@@ -50,10 +60,17 @@ const SignUp = () => {
             <input
               type="password"
               className="input input-bordered w-full"
-              {...register("password", { required: "Password is required", minLength: {
-                value: 8,
-                message: "Password length should be 8"
-              }, pattern: {value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: "Password must be strong"}})}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password length should be 8",
+                },
+                pattern: {
+                  value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
+                  message: "Password must be strong",
+                },
+              })}
             />
             <label className="label">
               <span className="label-text-alt">Forgot Password?</span>
