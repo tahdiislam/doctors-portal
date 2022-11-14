@@ -2,12 +2,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { handleSubmit, register, formState: {errors} } = useForm();
+    const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   // handle form submit
   const handleFormSubmit = (data) => {
     console.log(data);
-    data = {}
   };
   return (
     <div className="h-[800px] flex justify-center items-center">
@@ -21,9 +24,11 @@ const Login = () => {
             <input
               type="email"
               className="input input-bordered w-full"
-              {...register("email", {required: "Email is required"})}
+              {...register("email", { required: "Email is required" })}
             />
-            {errors.email && <p className="text-red-500 mt-2">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 mt-2">{errors.email.message}</p>
+            )}
           </div>
           <div className="form-control w-full">
             <label className="label">
@@ -32,12 +37,14 @@ const Login = () => {
             <input
               type="password"
               className="input input-bordered w-full"
-              {...register("password", {required: "Password is required"})}
+              {...register("password", { required: "Password is required" })}
             />
             <label className="label">
               <span className="label-text-alt">Forgot Password?</span>
             </label>
-            {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
+            )}
           </div>
           <input
             type="submit"
@@ -46,7 +53,9 @@ const Login = () => {
           />
         </form>
         <div className="divider"></div>
-        <button className="btn btn-accent btn-outline w-full">Continue With Google</button>
+        <button className="btn btn-accent btn-outline w-full">
+          Continue With Google
+        </button>
       </div>
     </div>
   );
