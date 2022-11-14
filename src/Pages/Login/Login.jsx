@@ -5,29 +5,29 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 
 const Login = () => {
-    const {
+  const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
-  
-  const {logInUser} = useContext(UserContext)
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from?.pathname || "/"
+
+  const { logInUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   // handle form submit
   const handleFormSubmit = (data) => {
     // log in registered user
     logInUser(data.email, data.password)
-    .then(result => {
+      .then((result) => {
         console.log(result.user);
-        toast.success("Login successfully.")
-        navigate(from, {replace: true})
-    })
-    .catch(err => {
+        toast.success("Login successfully.");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
         console.log(err.message);
-    })
+      });
   };
   return (
     <div className="h-[800px] flex justify-center items-center">
@@ -69,7 +69,14 @@ const Login = () => {
             value="Login"
           />
         </form>
-        <p className="text-center"><small>New to docotor's portal? <Link className="text-primary hover:underline" to="/register">Create new account</Link></small></p>
+        <p className="text-center">
+          <small>
+            New to docotor's portal?{" "}
+            <Link className="text-primary hover:underline" to="/register">
+              Create new account
+            </Link>
+          </small>
+        </p>
         <div className="divider">OR</div>
         <button className="btn btn-accent btn-outline w-full">
           Continue With Google

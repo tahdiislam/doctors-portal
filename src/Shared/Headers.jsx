@@ -28,9 +28,14 @@ const Headers = () => {
         <Link to="/appointment">Appointment</Link>
       </li>
       {user?.uid ? (
+        <>
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
         <li>
           <button onClick={handleLogOut}>Log Out</button>
         </li>
+        </>
       ) : (
         <li>
           <Link to="/login">Login</Link>
