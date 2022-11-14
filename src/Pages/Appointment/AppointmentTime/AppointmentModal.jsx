@@ -3,7 +3,7 @@ import React from 'react';
 
 const AppointmentModal = ({ treatment, dateSelected }) => {
     const { name, slots } = treatment;
-    const date = format(dateSelected, "PP")
+    const date = format(dateSelected, "PP");
 
     // form submit handler
     const handleFormSubmit = e => {
@@ -19,6 +19,7 @@ const AppointmentModal = ({ treatment, dateSelected }) => {
         <>
             <input type="checkbox" id="my-modal-3" className="modal-toggle" />
             <div className="modal">
+                
                 <div className="modal-box relative">
                     <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2 btn-accent text-white">✕</label>
                     <h3 className="text-lg font-bold">{name}</h3>

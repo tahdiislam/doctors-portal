@@ -6,7 +6,9 @@ const Headers = () => {
     const navItems = <React.Fragment>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/appointment'>Appointment</Link></li>
+        <li><Link to='/login'>Login</Link></li>
     </React.Fragment>
+    
     return (
         <nav>
             <div className="navbar bg-base-100 flex justify-between">
