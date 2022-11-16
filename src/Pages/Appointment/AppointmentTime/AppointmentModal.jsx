@@ -1,8 +1,10 @@
+import axios from "axios";
 import { format } from "date-fns/esm";
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { UserContext } from "../../../Context/AuthProvider";
 
-const AppointmentModal = ({ treatment, dateSelected }) => {
+const AppointmentModal = ({ treatment, dateSelected, setTreatment, refetch }) => {
   const { user } = useContext(UserContext);
   const { name: treatmentName, slots } = treatment;
   const date = format(dateSelected, "PP");
@@ -18,13 +20,24 @@ const AppointmentModal = ({ treatment, dateSelected }) => {
     
     // booking object
     const booking = {
-      appointmentData: date,
+      appointmentDate: date,
       treatment: treatmentName,
       patient: name,
       email,
-      phone
+      phone,
+      slot
     }
-    console.log(booking);
+    
+    // post booking data
+    axios.post("http://localhost:5000/bookings", booking)
+    .then(res => {
+      if(res.data.result.acknowledged){
+        toast.success("Booking added successfully")
+        refetch()
+        setTreatment(false)
+      }
+    })
+    .catch(err => console.log(err))
   };
   return (
     <>
