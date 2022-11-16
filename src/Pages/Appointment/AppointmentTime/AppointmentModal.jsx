@@ -31,9 +31,12 @@ const AppointmentModal = ({ treatment, dateSelected, setTreatment, refetch }) =>
     // post booking data
     axios.post("http://localhost:5000/bookings", booking)
     .then(res => {
-      if(res.data.result.acknowledged){
+      if(res.data?.result?.acknowledged){
         toast.success("Booking added successfully")
         refetch()
+        setTreatment(false)
+      }else{
+        toast.error(res.data?.message)
         setTreatment(false)
       }
     })
