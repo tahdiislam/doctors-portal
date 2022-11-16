@@ -4,7 +4,7 @@ import { UserContext } from "../../../Context/AuthProvider";
 
 const AppointmentModal = ({ treatment, dateSelected }) => {
   const { user } = useContext(UserContext);
-  const { name, slots } = treatment;
+  const { name: treatmentName, slots } = treatment;
   const date = format(dateSelected, "PP");
 
   // form submit handler
@@ -12,10 +12,19 @@ const AppointmentModal = ({ treatment, dateSelected }) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const number = form.number.value;
+    const phone = form.number.value;
     const email = form.email.value;
     const slot = form.slot.value;
-    console.log(name, number, email, slot);
+    
+    // booking object
+    const booking = {
+      appointmentData: date,
+      treatment: treatmentName,
+      patient: name,
+      email,
+      phone
+    }
+    console.log(booking);
   };
   return (
     <>
@@ -28,7 +37,7 @@ const AppointmentModal = ({ treatment, dateSelected }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">{name}</h3>
+          <h3 className="text-lg font-bold">{treatmentName}</h3>
           <form
             onSubmit={handleFormSubmit}
             className="grid grid-cols-1 gap-4 mt-6"
