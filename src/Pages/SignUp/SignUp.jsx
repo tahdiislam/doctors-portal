@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -10,26 +11,37 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { createUser, userProfileUpdate } = useContext(UserContext);
   // form submit handler
   const handleFormSubmit = (data) => {
     const userInfo = {
-        displayName: data.name
-    }
+      displayName: data.name,
+    };
     // create user with email and password
     createUser(data.email, data.password)
       .then((result) => {
-        toast.success("Account created successfully")
-        // update profile 
+        toast.success("Account created successfully");
+        // update profile
         userProfileUpdate(userInfo)
-        .then(() => {
-          navigate("/")
-        })
-        .catch(err => console.log(err))
+          .then(() => {
+            saveUser(result.user.displayName, result.user.email)
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+  };
+
+  // post user data to server
+  const saveUser = (name, email) => {
+    const user = { name, email };
+    axios.post("http://localhost:5000/users", user)
+    .then(res => {
+      console.log(res.data.result);
+      navigate("/");
+    })
+    .catch(err => console.log(err))
   };
   return (
     <div className="h-[800px] flex justify-center items-center">
@@ -46,9 +58,7 @@ const SignUp = () => {
               {...register("name", { required: "Name is required" })}
             />
             {errors.name && (
-              <small className="text-red-500 mt-2">
-                {errors.name.message}
-              </small>
+              <small className="text-red-500 mt-2">{errors.name.message}</small>
             )}
           </div>
           <div className="form-control w-full">
