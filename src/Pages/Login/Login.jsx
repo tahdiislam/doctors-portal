@@ -1,11 +1,12 @@
 import { GoogleAuthProvider } from "firebase/auth";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
+import useToken from "../../Hooks/useToken";
 
-const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
   const {
@@ -18,30 +19,47 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
+
+  if (token) {
+    toast.success("Login successfully");
+    navigate(from, { replace: true });
+  }
 
   // handle form submit
   const handleFormSubmit = (data) => {
     // log in registered user
     logInUser(data.email, data.password)
       .then((result) => {
-        console.log(result.user);
-        toast.success("Login successfully.");
-        navigate(from, { replace: true });
+        setLoginUserEmail(result.user.email);
       })
       .catch((err) => {
-        console.log(err.message);
+        toast.error(
+          err.message
+            .split("Firebase: ")
+            .join("")
+            .split(" (")
+            .join(": ")
+            .split("/")
+            .join(" ")
+            .split("-")
+            .join(" ")
+            .split(")")
+            .join("")
+        );
       });
   };
 
-  // google sign in handler 
+  // google sign in handler
   const handleGoogleSignIn = () => {
     providerSignIn(googleProvider)
-    .then(result => {
-      toast.success("Sign in successfully.")
-      navigate(from, { replace: true });
-    })
-    .catch(err => console.log(err))
-  }
+      .then((result) => {
+        toast.success("Sign in successfully.");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7 shadow-lg rounded-lg">
@@ -91,7 +109,10 @@ const Login = () => {
           </small>
         </p>
         <div className="divider">OR</div>
-        <button onClick={handleGoogleSignIn} className="btn btn-accent btn-outline w-full">
+        <button
+          onClick={handleGoogleSignIn}
+          className="btn btn-accent btn-outline w-full"
+        >
           Continue With Google
         </button>
       </div>
