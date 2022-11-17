@@ -38,11 +38,21 @@ const SignUp = () => {
     const user = { name, email };
     axios.post("http://localhost:5000/users", user)
     .then(res => {
-      console.log(res.data.result);
-      navigate("/");
+      getToken(email)
     })
     .catch(err => console.log(err))
   };
+
+  // get user access token 
+  const getToken = email => {
+    axios.get(`http://localhost:5000/jwt?email=${email}`)
+    .then(res => {
+      // console.log(res.data.token);
+      localStorage.setItem("dpt", res.data.token)
+      navigate("/");
+    })
+    .catch(console.log)
+  }
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7 shadow-lg rounded-lg">
