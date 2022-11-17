@@ -8,15 +8,15 @@ const Headers = () => {
   // log out handler
   const handleLogOut = () => {
     logOutUser()
-    .then(result => {
-        // user log out 
-    })
-    .catch(err => {
+      .then((result) => {
+        // user log out
+      })
+      .catch((err) => {
         console.log(err);
-    })
-    .finally(() => {
-        setLoading(false)
-    })
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   // nav items
   const navItems = (
@@ -29,12 +29,12 @@ const Headers = () => {
       </li>
       {user?.uid ? (
         <>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <button onClick={handleLogOut}>Log Out</button>
-        </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <button onClick={handleLogOut}>Log Out</button>
+          </li>
         </>
       ) : (
         <li>
@@ -51,22 +51,17 @@ const Headers = () => {
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
+                className="swap-off fill-current"
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                width="32"
+                height="32"
+                viewBox="0 0 512 512"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
+                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
               </svg>
             </label>
             <ul
-              tabIndex={0}
+              tabIndex={1}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               {navItems}
@@ -77,6 +72,26 @@ const Headers = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">{navItems}</ul>
         </div>
+        <label
+          htmlFor="dashboard-drawer"
+          tabIndex={2}
+          className="btn btn-ghost lg:hidden"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h8m-8 6h16"
+            />
+          </svg>
+        </label>
       </div>
     </nav>
   );
