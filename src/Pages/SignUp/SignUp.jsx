@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
+import useToken from "../../Hooks/useToken";
 
 const SignUp = () => {
   const {
@@ -12,6 +13,12 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  // get user access token
+  const [token] = useToken(createdUserEmail)
+  if(token){
+    navigate("/")
+  }
 
   const { createUser, userProfileUpdate } = useContext(UserContext);
   // form submit handler
@@ -38,21 +45,21 @@ const SignUp = () => {
     const user = { name, email };
     axios.post("http://localhost:5000/users", user)
     .then(res => {
-      getToken(email)
+      setCreatedUserEmail(email)
     })
     .catch(err => console.log(err))
   };
 
-  // get user access token 
-  const getToken = email => {
-    axios.get(`http://localhost:5000/jwt?email=${email}`)
-    .then(res => {
-      // console.log(res.data.token);
-      localStorage.setItem("dpt", res.data.token)
-      navigate("/");
-    })
-    .catch(console.log)
-  }
+  // // get user access token 
+  // const getToken = email => {
+  //   axios.get(`http://localhost:5000/jwt?email=${email}`)
+  //   .then(res => {
+  //     // console.log(res.data.token);
+  //     localStorage.setItem("dpt", res.data.token)
+  //     navigate("/");
+  //   })
+  //   .catch(console.log)
+  // }
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7 shadow-lg rounded-lg">
