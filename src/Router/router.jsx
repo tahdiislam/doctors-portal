@@ -7,6 +7,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
+import AdminRouter from "./AdminRouter";
 import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
@@ -35,7 +36,9 @@ export const router = createBrowserRouter([
     ),
     children: [
         {path: "/dashboard", element: <Dashboard/>},
-        {path: "/dashboard/allusers", element: <AllUsers/>},
+        {path: "/dashboard/allusers", element: <AdminRouter>
+          <AllUsers/>
+        </AdminRouter>},
     ]
   },
 ]);
