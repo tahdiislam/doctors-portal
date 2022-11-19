@@ -13,11 +13,11 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
   // get user access token
-  const [token] = useToken(createdUserEmail)
-  if(token){
-    navigate("/")
+  const [token] = useToken(createdUserEmail);
+  if (token) {
+    navigate("/");
   }
 
   const { createUser, userProfileUpdate } = useContext(UserContext);
@@ -33,7 +33,7 @@ const SignUp = () => {
         // update profile
         userProfileUpdate(userInfo)
           .then(() => {
-            saveUser(result.user.displayName, result.user.email)
+            saveUser(result.user.displayName, result.user.email);
           })
           .catch((err) => console.log(err));
       })
@@ -43,23 +43,14 @@ const SignUp = () => {
   // post user data to server
   const saveUser = (name, email) => {
     const user = { name, email };
-    axios.post("http://localhost:5000/users", user)
-    .then(res => {
-      setCreatedUserEmail(email)
-    })
-    .catch(err => console.log(err))
+    axios
+      .post("http://localhost:5000/users", user)
+      .then((res) => {
+        setCreatedUserEmail(email);
+      })
+      .catch((err) => console.log(err));
   };
 
-  // // get user access token 
-  // const getToken = email => {
-  //   axios.get(`http://localhost:5000/jwt?email=${email}`)
-  //   .then(res => {
-  //     // console.log(res.data.token);
-  //     localStorage.setItem("dpt", res.data.token)
-  //     navigate("/");
-  //   })
-  //   .catch(console.log)
-  // }
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7 shadow-lg rounded-lg">
