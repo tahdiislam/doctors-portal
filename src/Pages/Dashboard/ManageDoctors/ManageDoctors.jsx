@@ -1,10 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import ConfirmationModal from "../../../Shared/ConfirmationModal";
 import Loading from "../../../Shared/Loading";
 
 export default function ManageDoctors() {
+  const [deletingDoctor, setDeletingDoctor] = useState(null);
   // load all doctors
-  const { data: doctors = [], isLoading } = useQuery({
+  const {
+    data: doctors = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/doctors", {
@@ -17,11 +25,27 @@ export default function ManageDoctors() {
     },
   });
 
+  // delete doctors handler
+  const handleDeleteDoctors = (doctor) => {
+    axios
+      .delete(`http://localhost:5000/doctors/${doctor._id}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("dpt")}`,
+        },
+      })
+      .then((res) => {
+        if(res.data.result.deletedCount){
+          toast.success("Doctor deleted successfully.")
+          refetch();
+        }
+      });
+  };
+
   // loading spinner
   if (isLoading) {
     return <Loading />;
   }
-  console.log(doctors.doctors);
+
   return (
     <div>
       <h3 className="text-3xl font-bold mb-4">Manage Doctors</h3>
@@ -39,7 +63,7 @@ export default function ManageDoctors() {
               </tr>
             </thead>
             <tbody>
-              {doctors.doctors.map((doctor, i) => (
+              {doctors?.doctors?.map((doctor, i) => (
                 <tr key={doctor._id}>
                   <th>{i + 1}</th>
                   <th>
@@ -53,7 +77,13 @@ export default function ManageDoctors() {
                   <td>{doctor.email}</td>
                   <td>{doctor.specialty}</td>
                   <td>
-                    <button className="btn btn-sm btn-error">Delete</button>
+                    <label
+                      onClick={() => setDeletingDoctor(doctor)}
+                      htmlFor="confirmation-modal"
+                      className="btn btn-sm btn-error"
+                    >
+                      Delete
+                    </label>
                   </td>
                 </tr>
               ))}
@@ -61,6 +91,15 @@ export default function ManageDoctors() {
           </table>
         </div>
       </div>
+      {deletingDoctor && (
+        <ConfirmationModal
+        title="Are you sure you want to delete?"
+        message={`If you delete ${deletingDoctor.name}. It cannot be undone.`}
+        setDeletingDoctor={setDeletingDoctor}
+        handleDeleteDoctors={handleDeleteDoctors}
+        deletingDoctor={deletingDoctor}
+        />
+      )}
     </div>
   );
 }
