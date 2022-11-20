@@ -4,9 +4,14 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../Context/AuthProvider";
 
-const AppointmentModal = ({ treatment, dateSelected, setTreatment, refetch }) => {
+const AppointmentModal = ({
+  treatment,
+  dateSelected,
+  setTreatment,
+  refetch,
+}) => {
   const { user } = useContext(UserContext);
-  const { name: treatmentName, slots } = treatment;
+  const { name: treatmentName, slots, price } = treatment;
   const date = format(dateSelected, "PP");
 
   // form submit handler
@@ -17,7 +22,7 @@ const AppointmentModal = ({ treatment, dateSelected, setTreatment, refetch }) =>
     const phone = form.number.value;
     const email = form.email.value;
     const slot = form.slot.value;
-    
+
     // booking object
     const booking = {
       appointmentDate: date,
@@ -25,22 +30,24 @@ const AppointmentModal = ({ treatment, dateSelected, setTreatment, refetch }) =>
       patient: name,
       email,
       phone,
-      slot
-    }
-    
+      slot,
+      price,
+    };
+
     // post booking data
-    axios.post("http://localhost:5000/bookings", booking)
-    .then(res => {
-      if(res.data?.result?.acknowledged){
-        toast.success("Booking added successfully")
-        refetch()
-        setTreatment(false)
-      }else{
-        toast.error(res.data?.message)
-        setTreatment(false)
-      }
-    })
-    .catch(err => console.log(err))
+    axios
+      .post("http://localhost:5000/bookings", booking)
+      .then((res) => {
+        if (res.data?.result?.acknowledged) {
+          toast.success("Booking added successfully");
+          refetch();
+          setTreatment(false);
+        } else {
+          toast.error(res.data?.message);
+          setTreatment(false);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <>

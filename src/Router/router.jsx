@@ -6,6 +6,7 @@ import AddDoctors from "../Pages/Dashboard/AddDoctors/AddDoctors";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../Pages/Dashboard/ManageDoctors/ManageDoctors";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
@@ -61,6 +62,15 @@ export const router = createBrowserRouter([
             <ManageDoctors/>
           </AdminRouter>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: (
+          <AdminRouter>
+            <Payment/>
+          </AdminRouter>
+        ),
+        loader: ({params}) => fetch(`http://localhost:5000/bookings/${params.id}`)
       },
     ],
   },

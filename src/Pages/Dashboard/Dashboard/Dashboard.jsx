@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../../Context/AuthProvider";
 import Loading from "../../../Shared/Loading";
 
@@ -13,8 +14,8 @@ const Dashboard = () => {
     queryFn: async () => {
       const res = await fetch(url, {
         headers: {
-          authorization: `Bearer ${localStorage.getItem("dpt")}`
-        }
+          authorization: `Bearer ${localStorage.getItem("dpt")}`,
+        },
       });
       const data = await res.json();
       return data.result;
@@ -38,6 +39,7 @@ const Dashboard = () => {
               <th>Treatment</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Payment status</th>
             </tr>
           </thead>
           <tbody>
@@ -48,6 +50,18 @@ const Dashboard = () => {
                 <td>{booking.treatment}</td>
                 <td>{booking.appointmentDate}</td>
                 <td>{booking.slot}</td>
+                <td>
+                  <span className="flex justify-center">
+                    {!booking?.paid && (
+                      <Link to={`/dashboard/payment/${booking._id}`}>
+                        <button className="btn btn-primary">Pay</button>
+                      </Link>
+                    )}
+                    {
+                      booking?.paid && <span className="btn btn-success ">Paid</span>
+                    }
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
