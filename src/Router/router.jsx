@@ -7,6 +7,7 @@ import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../Pages/Dashboard/ManageDoctors/ManageDoctors";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import ErrorPage from "../Pages/Error/ErrorPage";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage/>,
     children: [
       { path: "/", element: <Home /> },
       { path: "/appointment", element: <Appointment /> },
@@ -37,6 +39,7 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </RequireAuth>
     ),
+    errorElement: <ErrorPage/>,
     children: [
       { path: "/dashboard", element: <Dashboard /> },
       {
