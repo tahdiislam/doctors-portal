@@ -1,13 +1,32 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function CheckOutForm({ result }) {
   const [cardError, setCardError] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
+  const [success, setSuccess] = useState("")
+  const [transactionId, setTransactionId] = useState("")
+  const [processing, setProcessing] = useState(false)
   const stripe = useStripe();
   const element = useElements();
 
   // price
-  const { price } = result;
+  const { price, patient, email } = result;
+
+  // load client secret
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("http://localhost:5000/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("dpt")}`,
+      },
+      body: JSON.stringify({ price }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, [price]);
 
   // form submit handler
   const handleSubmit = async (event) => {
@@ -30,11 +49,32 @@ export default function CheckOutForm({ result }) {
     });
 
     if (error) {
-      console.log(error);
       setCardError(error.message);
     } else {
       setCardError("");
     }
+    setSuccess("")
+    setProcessing(true)
+
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: patient,
+            email: email,
+          },
+        },
+      });
+    if (confirmError) {
+      setCardError(confirmError.message);
+      return;
+    } 
+    if(paymentIntent.status === "succeeded"){
+      setSuccess("Congrats! your payment completed")
+      setTransactionId(paymentIntent.id)
+    }
+    setProcessing(false)
   };
   return (
     <>
@@ -58,7 +98,7 @@ export default function CheckOutForm({ result }) {
         <button
           className="btn btn-sm mt-4 btn-primary"
           type="submit"
-          disabled={!stripe}
+          disabled={!stripe || !clientSecret || processing}
         >
           Pay
         </button>
@@ -66,6 +106,14 @@ export default function CheckOutForm({ result }) {
       <p className="text-red-500">
         <small>{cardError}</small>
       </p>
+      {success && <div>
+        <p className="text-green-500">
+          {success}
+        </p>
+        <p>
+          Your transactionId: <span className="font-bold">{transactionId}</span>
+        </p>
+        </div>}
     </>
   );
 }
