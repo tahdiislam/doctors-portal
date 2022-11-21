@@ -54,12 +54,14 @@ const Dashboard = () => {
                   <span className="flex justify-center">
                     {!booking?.paid && (
                       <Link to={`/dashboard/payment/${booking._id}`}>
-                        <button className="btn btn-primary">Pay</button>
+                        <button className="btn btn-primary">
+                          Pay ${`${booking.price}`}
+                        </button>
                       </Link>
                     )}
-                    {
-                      booking?.paid && <span className="btn btn-success ">Paid</span>
-                    }
+                    {booking?.paid && (
+                      <span className="btn btn-success ">Paid</span>
+                    )}
                   </span>
                 </td>
               </tr>

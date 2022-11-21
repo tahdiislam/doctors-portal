@@ -1,17 +1,18 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function CheckOutForm({ result }) {
   const [cardError, setCardError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [success, setSuccess] = useState("")
-  const [transactionId, setTransactionId] = useState("")
-  const [processing, setProcessing] = useState(false)
+  const [success, setSuccess] = useState("");
+  const [transactionId, setTransactionId] = useState("");
+  const [processing, setProcessing] = useState(false);
   const stripe = useStripe();
   const element = useElements();
 
   // price
-  const { price, patient, email } = result;
+  const { price, patient, email, _id } = result;
 
   // load client secret
   useEffect(() => {
@@ -53,8 +54,8 @@ export default function CheckOutForm({ result }) {
     } else {
       setCardError("");
     }
-    setSuccess("")
-    setProcessing(true)
+    setSuccess("");
+    setProcessing(true);
 
     const { paymentIntent, error: confirmError } =
       await stripe.confirmCardPayment(clientSecret, {
@@ -69,12 +70,31 @@ export default function CheckOutForm({ result }) {
     if (confirmError) {
       setCardError(confirmError.message);
       return;
-    } 
-    if(paymentIntent.status === "succeeded"){
-      setSuccess("Congrats! your payment completed")
-      setTransactionId(paymentIntent.id)
     }
-    setProcessing(false)
+
+    const payment = {
+      price,
+      transactionId: paymentIntent.id,
+      email,
+      bookingId: _id,
+    };
+
+    if (paymentIntent.status === "succeeded") {
+      axios
+        .post("http://localhost:5000/payments", payment, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("dpt")}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.result.acknowledged) {
+            setSuccess("Congrats! your payment completed");
+            setTransactionId(paymentIntent.id);
+          }
+          console.log(res);
+        });
+    }
+    setProcessing(false);
   };
   return (
     <>
@@ -106,14 +126,15 @@ export default function CheckOutForm({ result }) {
       <p className="text-red-500">
         <small>{cardError}</small>
       </p>
-      {success && <div>
-        <p className="text-green-500">
-          {success}
-        </p>
-        <p>
-          Your transactionId: <span className="font-bold">{transactionId}</span>
-        </p>
-        </div>}
+      {success && (
+        <div>
+          <p className="text-green-500">{success}</p>
+          <p>
+            Your transactionId:{" "}
+            <span className="font-bold">{transactionId}</span>
+          </p>
+        </div>
+      )}
     </>
   );
 }
