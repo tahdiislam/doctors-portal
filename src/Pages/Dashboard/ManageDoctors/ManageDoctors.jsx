@@ -15,7 +15,7 @@ export default function ManageDoctors() {
   } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/doctors", {
+      const res = await fetch("https://doctors-portal-server-teal.vercel.app/doctors", {
         headers: {
           authorization: `Bearer ${localStorage.getItem("dpt")}`,
         },
@@ -28,7 +28,7 @@ export default function ManageDoctors() {
   // delete doctors handler
   const handleDeleteDoctors = (doctor) => {
     axios
-      .delete(`http://localhost:5000/doctors/${doctor._id}`, {
+      .delete(`https://doctors-portal-server-teal.vercel.app/doctors/${doctor._id}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("dpt")}`,
         },

@@ -36,7 +36,7 @@ const AppointmentModal = ({
 
     // post booking data
     axios
-      .post("http://localhost:5000/bookings", booking)
+      .post("https://doctors-portal-server-teal.vercel.app/bookings", booking)
       .then((res) => {
         if (res.data?.result?.acknowledged) {
           toast.success("Booking added successfully");

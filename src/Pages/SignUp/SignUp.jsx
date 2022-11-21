@@ -44,7 +44,7 @@ const SignUp = () => {
   const saveUser = (name, email) => {
     const user = { name, email };
     axios
-      .post("http://localhost:5000/users", user)
+      .post("https://doctors-portal-server-teal.vercel.app/users", user)
       .then((res) => {
         setCreatedUserEmail(email);
       })

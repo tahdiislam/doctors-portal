@@ -22,7 +22,7 @@ export default function AddDoctors() {
   const { data: specialties = [], isLoading } = useQuery({
     queryKey: ["specialty"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/appointment-specialty");
+      const res = await fetch("https://doctors-portal-server-teal.vercel.app/appointment-specialty");
       const data = await res.json();
       return data.result;
     },
@@ -51,7 +51,7 @@ export default function AddDoctors() {
           console.log(doctor);
           // save doctor's to server
           axios
-            .post("http://localhost:5000/doctors", doctor, {
+            .post("https://doctors-portal-server-teal.vercel.app/doctors", doctor, {
               headers: {
                 authorization: `Bearer ${localStorage.getItem("dpt")}`,
               },

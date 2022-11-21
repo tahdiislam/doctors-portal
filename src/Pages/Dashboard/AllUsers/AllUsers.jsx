@@ -13,7 +13,7 @@ const AllUsers = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/users");
+      const res = await fetch("https://doctors-portal-server-teal.vercel.app/users");
       const data = await res.json();
       return data.users;
     },
@@ -25,7 +25,7 @@ const AllUsers = () => {
     if (proceed) {
       axios
         .put(
-          `http://localhost:5000/users/admin/${_id}`,
+          `https://doctors-portal-server-teal.vercel.app/users/admin/${_id}`,
           { hello: "world" },
           {
             headers: {

@@ -6,7 +6,7 @@ import Loading from "../../../Shared/Loading";
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
-  const url = `http://localhost:5000/bookings?email=${user?.email}`;
+  const url = `https://doctors-portal-server-teal.vercel.app/bookings?email=${user?.email}`;
 
   // load appointment data from server
   const { data: bookings = [], isLoading } = useQuery({

@@ -71,7 +71,7 @@ export const router = createBrowserRouter([
         element: (
             <Payment/>
         ),
-        loader: ({params}) => fetch(`http://localhost:5000/bookings/${params.id}`)
+        loader: ({params}) => fetch(`https://doctors-portal-server-teal.vercel.app/bookings/${params.id}`)
       },
     ],
   },

@@ -5,7 +5,7 @@ const useToken = (email) => {
   const [token, setToken] = useState("");
   useEffect(() => {
     if (email) {
-      axios.get(`http://localhost:5000/jwt?email=${email}`).then((res) => {
+      axios.get(`https://doctors-portal-server-teal.vercel.app/jwt?email=${email}`).then((res) => {
         // console.log(res.data.token);
         if (res.data.token) {
           localStorage.setItem("dpt", res.data.token);

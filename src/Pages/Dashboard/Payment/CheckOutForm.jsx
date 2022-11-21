@@ -17,7 +17,7 @@ export default function CheckOutForm({ result }) {
   // load client secret
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://doctors-portal-server-teal.vercel.app/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function CheckOutForm({ result }) {
 
     if (paymentIntent.status === "succeeded") {
       axios
-        .post("http://localhost:5000/payments", payment, {
+        .post("https://doctors-portal-server-teal.vercel.app/payments", payment, {
           headers: {
             authorization: `Bearer ${localStorage.getItem("dpt")}`,
           },
