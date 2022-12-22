@@ -144,7 +144,8 @@ const SignUp = () => {
                   },
                   pattern: {
                     value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
-                    message: "Password must have 1 capital letter, one special sign(!@#$&*), and one number",
+                    message:
+                      "Password must have 1 capital letter, one special sign(!@#$&*), and one number",
                   },
                 })}
               />
